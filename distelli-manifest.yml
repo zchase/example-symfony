@@ -8,7 +8,7 @@ bmcgehee/example-symfony:
     - sudo apt-get -y update
     - sudo apt-get -y install php5-cli
     - sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
-    - if [ -a /usr/local/bin/symfony] ; then
+    - if [ -a /usr/local/bin/symfony ] ; then
     -   echo "Symfony already installed"
     - else
     -   echo "Installing Symfony"
