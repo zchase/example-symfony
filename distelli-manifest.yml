@@ -9,9 +9,9 @@ bmcgehee/example-symfony:
     - sudo apt-get -y install php5-cli
     - sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
   Start:
-    - php app/console server:start 0.0.0.0:8000
+    - php bin/console server:start 0.0.0.0:8000
   PreRestart:
-    - php app/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000
   PreTerminate:
-    - php app/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000
 
