@@ -26,10 +26,10 @@ bmcgehee/example-symfony:
     - sudo chown -R $WEBOWNER:$WEBOWNER *
     - sudo ln -s $DISTELLI_APPHOME $WEBDIR/  
   Start:
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
     - php bin/console server:start 0.0.0.0:8000
   PreRestart:
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
   PreTerminate:
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
 
