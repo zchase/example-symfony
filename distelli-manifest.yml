@@ -1,20 +1,24 @@
 bmcgehee/example-symfony:
+  Env:
+    - WEBDIR: "/var/www/html"
   Build:
     - echo "Nothing to build"
   PkgInclude:
     - '*'
   PreInstall:
     # Installing PHP-CLI prerequisite
-    - sudo apt-get -y update
-    - sudo apt-get -y install php5-cli
-    - sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
-    - if [ -a /usr/local/bin/symfony ] ; then
-    -   echo "Symfony already installed"
-    - else
-    -   echo "Installing Symfony"
-    -   sudo curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
-    -   sudo chmod a+x /usr/local/bin/symfony
-    - fi
+    #- sudo apt-get -y update
+    #- sudo apt-get -y install php5-cli
+    #- sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
+    #- if [ -a /usr/local/bin/symfony ] ; then
+    #-   echo "Symfony already installed"
+    #- else
+    #-   echo "Installing Symfony"
+    #-   sudo curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
+    #-   sudo chmod a+x /usr/local/bin/symfony
+    #- fi
+  PostInstall:
+    - sudo ln -s $DISTELLI_APPHOME $WEBDIR/  
   Start:
     - php bin/console server:start 0.0.0.0:8000
   PreRestart:
