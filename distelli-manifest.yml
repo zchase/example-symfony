@@ -8,6 +8,7 @@ bmcgehee/example-symfony:
   PkgInclude:
     - '*'
   PreInstall:
+    - echo "PreInstall"
     # Installing PHP-CLI prerequisite
     #- sudo apt-get -y update
     #- sudo apt-get -y install php5-cli
@@ -20,12 +21,14 @@ bmcgehee/example-symfony:
     #-   sudo chmod a+x /usr/local/bin/symfony
     #- fi
   PostInstall:
+    - echo "PostInstall"
     - if [ -d $WEBDIR/$APPDIR ]; then
     -   sudo rm -rf $WEBDIR/$APPDIR
     - fi
     - sudo chown -R $WEBOWNER:$WEBOWNER *
     - sudo ln -s $DISTELLI_APPHOME $WEBDIR/  
   Start:
+    - echo "Start"
     - php bin/console server:stop 0.0.0.0:8000 | true
     - php bin/console server:start 0.0.0.0:8000
   PreRestart:
