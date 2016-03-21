@@ -28,8 +28,7 @@ bmcgehee/example-symfony:
     - sudo chown -R $WEBOWNER:$WEBOWNER *
     - sudo ln -s $DISTELLI_APPHOME $WEBDIR/
     - publicip=$(curl -s ident.me)
-    - echo "Public IP $publicip"
-    - 'echo "You can validate the install by pointing your browser at http://$publicip:$PORT/$WEBDIR"'
+    - 'echo "You can validate the install by pointing your browser at http://$publicip:${PORT}$WEBDIR/$APPDIR"'
   Start:
     - echo "Start"
     - sudo service apache2 restart
