@@ -32,15 +32,15 @@ bmcgehee/example-symfony:
   Start:
     - echo "Start"
     - echo "Starting php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
     - php bin/console server:start 0.0.0.0:8000
   PreRestart:
     - echo "PreRestart"
     - echo "Restarting the php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
     - php bin/console server:start 0.0.0.0:8000
   Terminate:
     - echo "Terminate"
     - echo "Terminating the php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000
+    - php bin/console server:stop 0.0.0.0:8000 | true
 
