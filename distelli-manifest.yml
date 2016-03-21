@@ -4,7 +4,8 @@ bmcgehee/example-symfony:
     - WEBOWNER: "www-data"
     - APPDIR: "example-symfony"
     - APPCONTENT: "web/app.php"
-    - PORT: "80"
+    - PORT: "8000"
+    - WAIT: "2"
   Build:
     - echo "Nothing to build"
   PkgInclude:
@@ -31,16 +32,19 @@ bmcgehee/example-symfony:
     - 'echo "You can validate the install by pointing your browser at http://$publicip:${PORT}/$APPDIR/$APPCONTENT"'
   Start:
     - echo "Start"
-    - echo "Starting php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000 | true
-    - php bin/console server:start 0.0.0.0:8000
+    - echo "Starting php test server on port $PORT."
+    - php bin/console server:stop 0.0.0.0:$PORT | true
+    - sleep $WAIT
+    - php bin/console server:start 0.0.0.0:$PORT
   PreRestart:
     - echo "PreRestart"
-    - echo "Restarting the php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000 | true
-    - php bin/console server:start 0.0.0.0:8000
+    - echo "Restarting the php test server on port $PORT."
+    - php bin/console server:stop 0.0.0.0:$PORT | true
+    - sleep $WAIT
+    - php bin/console server:start 0.0.0.0:$PORT
   Terminate:
     - echo "Terminate"
-    - echo "Terminating the php test server on port 8000."
-    - php bin/console server:stop 0.0.0.0:8000 | true
+    - echo "Terminating the php test server on port $PORT."
+    - php bin/console server:stop 0.0.0.0:$PORT | true
+    - sleep $WAIT
 
