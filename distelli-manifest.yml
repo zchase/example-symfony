@@ -4,47 +4,47 @@ bmcgehee/example-symfony:
     - WEBOWNER: "www-data"
     - APPDIR: "example-symfony"
     - APPCONTENT: "web/app.php"
-    - PORT: "8000"
-    - WAIT: "2"
+    - PORT: "80"
   Build:
     - echo "Nothing to build"
   PkgInclude:
     - '*'
   PreInstall:
     - echo "PreInstall"
-    - echo "Updating the apt-get repository."
-    - sudo apt-get -y update
-    - echo "Installing PHP-CLI prerequisite."
-    - sudo apt-get -y install php5-cli
-    - echo "Updating the php.ini timezone."
-    - sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
-    #- echo "Checking to see if Symfony is installed."
-    #- if [ -a /usr/local/bin/symfony ] ; then
-    #-   echo "Symfony already installed"
-    #- else
-    #-   echo "Installing Symfony"
-    #-   sudo curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
-    #-   sudo chmod a+x /usr/local/bin/symfony
-    #- fi
+    # This manifest assumes Apache2 is already installed on the server
   PostInstall:
     - echo "PostInstall"
+    - echo "Checking to see if $WEBDIR/$APPDIR exists."
+    - if [ -d $WEBDIR/$APPDIR ]; then
+    -   echo "$WEBDIR/$APPDIR exists, removing symbolic link."
+    -   sudo rm -rf $WEBDIR/$APPDIR
+    - else
+    -   echo "$WEBDIR/$APPDIR does not exist."
+    - fi
+    - echo "Changing ownership to $WEBOWNER for Apache2."
+    - sudo chown -R $WEBOWNER:$WEBOWNER *
+    - echo "Linking the content to the $WEBDIR/$APPDIR directory."
+    - sudo ln -s $DISTELLI_APPHOME $WEBDIR/
     - publicip=$(curl -s ident.me)
     - 'echo "You can validate the install by pointing your browser at http://$publicip:${PORT}/$APPDIR/$APPCONTENT"'
   Start:
     - echo "Start"
-    - echo "Starting php test server on port $PORT."
-    - php bin/console server:stop 0.0.0.0:$PORT | true
-    - sleep $WAIT
-    - php bin/console server:start 0.0.0.0:$PORT
+    #- echo "Restarting Apache2 service. This is an example and it is not necessary to restart Apache2 to see the new/updated content.."
+    #- sudo service apache2 restart
   PreRestart:
     - echo "PreRestart"
-    - echo "Restarting the php test server on port $PORT."
-    - php bin/console server:stop 0.0.0.0:$PORT | true
-    - sleep $WAIT
-    - php bin/console server:start 0.0.0.0:$PORT
+    - echo "Restarting Apache2 service. This is performed during Distelli Restart task."
+    - sudo service apache2 restart
   Terminate:
     - echo "Terminate"
-    - echo "Terminating the php test server on port $PORT."
-    - php bin/console server:stop 0.0.0.0:$PORT | true
-    - sleep $WAIT
+    - echo "Checking to see if $WEBDIR/$APPDIR exists."
+    - if [ -d $WEBDIR/$APPDIR ]; then
+    -   echo "$WEBDIR/$APPDIR exists, removing symbolic link."
+    -   sudo rm -rf $WEBDIR/$APPDIR
+    - else
+    -   echo "$WEBDIR/$APPDIR does not exist."
+    - fi
+    - echo "Restarting Apache2 service. This is an example and it is not necessary to restart Apache2 to see the removed content."    
+    - sudo service apache2 restart
+
 
