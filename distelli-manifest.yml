@@ -29,10 +29,16 @@ bmcgehee/example-symfony:
     - sudo ln -s $DISTELLI_APPHOME $WEBDIR/  
   Start:
     - echo "Start"
+    - sudo service apache2 restart
     #- php bin/console server:stop 0.0.0.0:8000 | true
     #- php bin/console server:start 0.0.0.0:8000
   PreRestart:
+    - sudo service apache2 restart
     #- php bin/console server:stop 0.0.0.0:8000 | true
-  PreTerminate:
+  Terminate:
+    - if [ -d $WEBDIR/$APPDIR ]; then
+    -   sudo rm -rf $WEBDIR/$APPDIR
+    - fi
+    - sudo service apache2 restart
     #- php bin/console server:stop 0.0.0.0:8000 | true
 
