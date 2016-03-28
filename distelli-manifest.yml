@@ -24,7 +24,7 @@ zchase/example-symfony:
     - echo "Changing ownership to $WEBOWNER for Apache2."
     - sudo chown -R $WEBOWNER:$WEBOWNER *
     - echo "Linking the content to the $WEBDIR/$APPDIR directory."
-    - sudo ln -s $DISTELLI_APPHOME $WEBDIR/
+    - sudo ln -sf $DISTELLI_APPHOME $WEBDIR/
     - publicip=$(curl -s ident.me)
     - 'echo "You can validate the install by pointing your browser at http://$publicip:${PORT}/$APPDIR/$APPCONTENT"'
   Start:
