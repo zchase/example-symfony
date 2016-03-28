@@ -11,7 +11,9 @@ zchase/example-symfony:
     - '*'
   PreInstall:
     - echo "PreInstall"
-    # This manifest assumes Apache2 is already installed on the server
+    - sudo apt-get -y update
+    - sudo apt-get -y install apache2
+    - sudo apt-get -y install php5 libapache2-mod-php5 php5-mcrypt php5-cgi php5-json
   PostInstall:
     - echo "PostInstall"
     - echo "Checking to see if $WEBDIR/$APPDIR exists."
@@ -27,6 +29,8 @@ zchase/example-symfony:
     - sudo ln -sf $DISTELLI_APPHOME $WEBDIR/
     - publicip=$(curl -s ident.me)
     - 'echo "You can validate the install by pointing your browser at http://$publicip:${PORT}/$APPDIR/$APPCONTENT"'
+    - echo "Updating the php.ini timezone."
+    - sudo sed -i "s|;date.timezone =|date.timezone = US/Pacific|g" /etc/php5/cli/php.ini
   Start:
     - echo "Start"
     - echo "Restarting Apache2 service. This is an example and it is not necessary to restart Apache2 to see the new/updated content.."
