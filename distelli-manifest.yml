@@ -1,4 +1,4 @@
-bmcgehee/example-symfony:
+zchase/example-symfony:
   Env:
     - WEBDIR: "/var/www/html"
     - WEBOWNER: "www-data"
